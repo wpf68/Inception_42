@@ -6,12 +6,12 @@
 #    By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 14:08:06 by pwolff            #+#    #+#              #
-#    Updated: 2023/01/05 14:08:09 by pwolff           ###   ########.fr        #
+#    Updated: 2023/01/08 16:01:17 by pwolff           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # https://wiki.alpinelinux.org/wiki/MariaDB
-FROM alpine:3.14
+FROM alpine:3.16
 
 LABEL maintainer="pwolff@student.42mulhouse.fr"
 
