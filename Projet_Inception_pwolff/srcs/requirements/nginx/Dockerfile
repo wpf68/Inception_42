@@ -6,7 +6,7 @@
 #    By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 14:07:47 by pwolff            #+#    #+#              #
-#    Updated: 2023/01/05 14:07:51 by pwolff           ###   ########.fr        #
+#    Updated: 2023/01/08 18:25:53 by pwolff           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ RUN bash /replace.sh "DOMAIN_NAME" ${DOMAIN_NAME} /etc/nginx/conf.d/ssl.conf && 
 RUN openssl req -new -newkey rsa:2048 -nodes \
      -out /etc/ssl/certs/$LOGIN.csr \
      -keyout /etc/ssl/private/$LOGIN.key \
-     -subj "/C=FR/ST=GE/L=Mulhouse/O=42/OU=42/CN=pwolff.42.fr/UID=pwolff"
+     -subj "/C=FR/ST=Alsace/L=Mulhouse/O=42/OU=42_Mulhouse/CN=pwolff.42.fr/USERID=pwolff"
 RUN openssl x509 -req -in /etc/ssl/certs/$LOGIN.csr -signkey /etc/ssl/private/$LOGIN.key -out /etc/ssl/certs/$LOGIN.crt
 
 EXPOSE	443

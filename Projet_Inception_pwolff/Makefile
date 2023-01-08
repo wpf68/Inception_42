@@ -6,9 +6,13 @@
 #    By: pwolff <pwolff@student.42mulhouse.fr>>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/05 13:46:00 by pwolff            #+#    #+#              #
-#    Updated: 2023/01/05 14:59:39 by pwolff           ###   ########.fr        #
+#    Updated: 2023/01/08 18:40:45 by pwolff           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# https://github.com/Jeremy-Perras/42-Inception
+# https://github.com/barimehdi77/inception
+# https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
 
 include ./srcs/.env
 export
