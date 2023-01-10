@@ -1,0 +1,142 @@
+VirtualBox :
+Launchpad / Managed Software Center / VirtualBox
+Launchpad / VirtualBox
+Paramètres / language / …. (Anglais pour clavier)
+		/Display/ 300%
+		/System/Processor/5lsb
+
+Debian  : 11.6.0
+https://www.debian.org/distrib/netinst.     Amd64
+
+VirtualBox :
+Nouvelle / Dossier de la machine / /goinfre/pwolff
+	Type / Linux
+	Version / Debian (64-bit)
+
+Taille de la memoire : 4096 MB
+Créer un disque virtuel maintenant
+VDI
+Dynamiquement alloué
+Emplacement du fichier et taille :  /goinfre/….    30 Go
+
+Configuration / Système / Nombre de processeur / Maxi dans le vert
+Configuration / Affichage / Facteur d échelle 300%
+Configuration / stockage / mettre ISO Debian dans contrôleur IDE
+Configuration / Dossier partage / choisir un dossier sur Mac - Montage automatique - Point de montage G:
+
+
+Demarrer
+
+Pour sortir de capture souris : cmd gauche
+Graphic install
+Langage Francais
+Clavier    Etats-Unis
+
+Nom Système pascal
+Domaine “”
+Mp : pascal
+
+Utilisateur ; pascal
+pascal
+MP ; pascal
+
+(Partition : Utiliser un disque entier
+Shéma de partition : partion /home, /var et /tmp separees
+Terminé)
+
+Appliquer les changements : OUI
+Analyser d'autre supports d'installation : NON
+Configurer l outil de gestion des paquets : France / deb.debian.org
+mandataire HTTP : vide
+Participation a l'etude : NON
+Logiciel a installer : server ssh / environnement de bureau - Serveur d'impression - utilitaires usuels du systéme - Xfce
+installer le programme GRUB : OUI
+Peripherique /dev/sda
+
+Vérifier la version de Debian : lsb_release -d
+
+
+
+(https://www.youtube.com/watch?v=Mok2J__Ci3Y&t=1s)
+mode root : 
+su
+gpasswd -a Nom_User sudo        pour mettre Nom_User dans group sudo
+puis applications / deconnexion
+connection User (pascal)
+pour pleine écran et adaptation de la fenêtre et presse papier :
+sudo apt install make gcc dkms linux-source linux-headers-$(uname -r)
+
+puis périphériques  / insérer image CD / clic-droit ouvrir un terminal ici / ls / sudo sh VBoxLinuxAdditions.run
+Périphériques / presse-papier partagé / bidirectionnel
+
+Sudo apt-get update
+Sudo apt-get upgrade
+
+en root l'accés est autorisé, mais en User il faut donner les droits : sudo usermod -a -G vboxsf Name_User
+et eventuellement : sudo mount -t vboxsf Nom_dossier_hote /media/sf_Nom_Dossier_hot 
+(Voir a redemarer la VM)
+
+
+———————     OK.  ——————————
+
+https://docs.docker.com/engine/install/debian/
+Installation de Docker
+sudo apt-get remove docker docker-engine docker.io containerd runc
+
+sudo apt-get update
+sudo apt-get install \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+Verif ;
+sudo docker run hello-world
+
+Donner les droits aux User (pascal)
+sudo groupadd docker
+sudo usermod -aG docker $USER
+
+(Fermer et ouvrir VM)
+(Docker-compose n’est pas encore installer)
+——————— OK ————————————
+
+https://cloudinfrastructureservices.co.uk/how-to-install-and-use-docker-compose-on-debian-11/
+Installer Docker-compose
+
+
+sudo apt update
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+
+
+Pour tester Inception :
+Modifier chemin dans .env : DATA_FOLDER=/home/pwolff/data
+
+
+
+—————————— OK —————————————
+
+Faire le lien entre localhost et pwolff.42.fr
+
+Fait dans le Makefile :
+    sudo chmod 777 /etc/hosts
+    sudo echo "127.0.0.1 pwolff.42.fr" >> /etc/hosts
+    sudo echo "127.0.0.1 www.pwolff.42.fr" >> /etc/hosts
+
+
+
+
+

@@ -1,0 +1,234 @@
+https://pwolff.42.fr
+
+Partie obligatoire
+Ce projet consiste à mettre en place une petite infrastructure composée de différents services utilisant docker-compose.
+Assurez-vous que tous les points suivants sont corrects.
+Aperçu du projet
+- La personne évaluée doit vous expliquer en termes simples :
+	- Comment fonctionnent Docker et docker-compose
+		Docker Compose est un outil destiné à définir et exécuter des applications Docker à plusieurs conteneurs. 
+		Dans Compose, vous utilisez un fichier YML pour configurer les services de votre application. 
+		Ensuite, vous créez et vous démarrez tous les services à partir de votre configuration en utilisant 
+		une seule commande.
+
+	- La différence entre une image Docker utilisée avec docker-compose et sans docker-composer
+		La différence entre Docker et Docker-compose est simple: les commandes Docker ne concernent 
+		qu'un seul conteneur (ou image) à la fois, alors que Docker-compose gère plusieurs conteneurs Docker
+
+	- L'avantage de Docker par rapport aux VM
+		Docker à l'avantage d'être bien plus léger qu'une machine virtuelle. Le lancement d'un conteneur est 
+		également plus rapide, ce qui en fait une solution privilégiée pour le déploiement de ses applications
+
+	- La pertinence de l'arborescence requise pour ce projet (un exemple est fourni dans le fichier PDF du sujet).
+		On a le Makefile à la racine qui pointe vers le docker-compose.yml qui lui même est à la racine de toutes
+		les dockerfile qui crérons les images nécessaires
+		Ainsi chaques dockerfile est bien classé avec les fichiers nécessaires à la configuration du service
+
+Configuration simple
+- Assurez-vous que NGINX est accessible uniquement par le port 443. Une fois terminé, ouvrez la page.
+		OK - https://localhost:443
+
+- Assurez-vous qu'un certificat SSL/TLS est utilisé.
+		OK - http://localhost:443 ne fonctionne pas
+
+- Assurez-vous que le site Web WordPress est correctement installé et configuré
+	(vous ne devriez pas voir la page d'installation de WordPress). Pour y accéder, ouvrez https://login.42.fr dans votre navigateur, où login est le login de
+	l'élève évalué. Vous ne devriez pas pouvoir accéder au site via
+	http://login.42.fr. Si quelque chose ne fonctionne pas comme prévu, le processus d'évaluation se termine maintenant.
+		OK
+
+Les bases de Docker
+- Commencez par vérifier les Dockerfiles. Il doit y avoir un Dockerfile par un service. 
+	Assurez-vous que les Dockerfiles ne sont pas des fichiers vides. Si ce n'est pas
+	le cas ou si un Dockerfile est manquant, le processus d'évaluation se termine maintenant.
+		OK dans requirement/mariadb /nginx /wordpress
+
+- Assurez-vous que l'étudiant évalué a écrit ses propres Dockerfiles et construit leurs propres images Docker. 
+	En effet, il est interdit d'utiliser prêts à l'emploi ou d'utiliser des services tels que DockerHub.
+		OK pas de connection à DockerHub (sudo docker login)
+
+- Assurez-vous que chaque conteneur est construit à partir de l'avant-dernière version stable d'Alpine Linux ou de Debian Buster.
+	Si un Dockerfile ne démarre pas avec 'FROM alpine' ou 'FROM debian:buster', ou toute autre image locale,
+	le processus d'évaluation se termine maintenant.
+		OK deux debian:buster et un alpine:3.14
+
+- Les images Docker doivent avoir le même nom que leurs correspondants un service. 
+	Sinon, le processus d'évaluation se termine maintenant.
+		OK docker images
+
+
+- Assurez-vous que le Makefile a configuré tous les services via docker-compose. Cela signifie que les conteneurs 
+	doivent avoir été construits à l'aide de docker-compose et qu'aucun accident ne s'est produit. 
+	Sinon, le processus d'évaluation se termine.
+		OK -- docker-compose utilise le fichier docker-compose.yml
+
+Réseau Docker
+- Assurez-vous que docker-network est utilisé en vérifiant le fichier docker-compose.yaml. 
+	Exécutez ensuite la commande 'docker network ls' pour vérifier qu'un réseau est visible.
+		OK docker network ls (network srcs_network)
+		docker network inspect srcs_network
+
+- L'étudiant évalué doit vous donner une explication simple de docker-réseau. Si l'un des points ci-dessus n'est 
+	pas correct, le processus d'évaluation se termine maintenant.
+		Pour que les conteneurs Docker puissent communiquer entre eux mais aussi avec le monde extérieur 
+		via la machine hôte, alors une couche de mise en réseau est nécessaire. 
+		Cette couche réseau rajoute une partie d'isolation des conteneurs, et permet donc de créer 
+		des applications Docker qui fonctionnent ensemble de manière sécurisée.
+	https://devopssec.fr/article/fonctionnement-manipulation-reseau-docker
+
+
+NGINX avec SSL/TLS
+- Assurez-vous qu'il existe un Dockerfile.
+		OK
+
+- À l'aide de la commande 'docker-compose ps', assurez-vous que le conteneur a été créé 
+	(l'utilisation du drapeau '-p' est autorisée si nécessaire).
+		OK (-p n'existe pas)
+
+- Essayez d'accéder au service via http (port 80) et vérifiez que vous ne pouvez pas vous connecter.
+		OK https://localhost:80
+
+- Ouvrez https://login.42.fr/ dans votre navigateur, où login est le login de l'étudiant évalué. 
+	La page affichée doit être la page configurée Site Web WordPress 
+	(vous ne devriez pas voir la page d'installation de WordPress).
+		OK
+
+- L'utilisation d'un certificat TLS v1.2/v1.3 est obligatoire et doit être démontré. 
+	Le certificat SSL/TLS n'a pas besoin d'être reconnu. Un avertissement de certificat auto-signé peut apparaître.
+	Si l'un des points ci-dessus n'est pas clairement expliqué et correct, le
+	le processus d'évaluation se termine maintenant.
+		TLS 1.3 est la dernière version du protocole TLS. TLS qui est utilisé par HTTPS et d'autres protocoles 
+		réseau pour le chiffrement. Il constitue la version moderne de SSL.
+		Démonstration : impossible de se connecter en http://
+		Mise en place dans ssl.conf de nginx
+
+WordPress avec php-fpm et son volume
+
+- Assurez-vous qu'il existe un Dockerfile.
+		OK
+
+- Assurez-vous qu'il n'y a pas de NGINX dans le Dockerfile.
+		OK
+
+- A l'aide de la commande 'docker-compose ps', assurez-vous que le conteneur a bien été créé 
+	(l'utilisation du flag '-p' est autorisée si nécessaire).
+		OK
+
+- Assurez-vous qu'il y a un volume. Faire cela:
+	Exécutez la commande 'docker volume ls' puis 'docker volume inspect'. 
+	Vérifiez que le résultat dans la sortie standard contient le chemin '/home/login/data/', 
+	où login est le login de l'étudiant évalué.
+		OK docker volume inspect srcs_wp
+
+- Assurez-vous que vous pouvez ajouter un commentaire en utilisant l'utilisateur WordPress disponible.
+		OK https://pwolff.42.fr/wp-user/
+	
+- Connectez-vous avec le compte administrateur pour accéder au tableau de bord d'administration. 
+	Le nom d'utilisateur de l'administrateur ne doit pas inclure "admin" ou "Admin" 
+	(par exemple, admin, administrator, Admin-login, admin-123, etc.).
+		OK https://pwolff.42.fr/wp-admin/     wordpress / pwolff
+
+- Depuis le tableau de bord Administration, modifiez une page. Vérifiez sur le site Web que la page a été mise à jour. 
+	Si l'un des points ci-dessus n'est pas correct, le processus d'évaluation se termine maintenant.
+		OK
+
+
+MariaDB et son volume
+
+- Assurez-vous qu'il existe un Dockerfile.
+		OK
+
+- Assurez-vous qu'il n'y a pas de NGINX dans le Dockerfile.
+		OK
+
+- A l'aide de la commande 'docker-compose ps', assurez-vous que le conteneur a bien été créé 
+	(l'utilisation du flag '-p' est autorisée si nécessaire).
+		OK
+
+- Assurez-vous qu'il y a un volume. Faire cela:
+	Exécutez la commande 'docker volume ls' puis 'docker volume inspect'. 
+	Vérifiez que le résultat dans la sortie standard contient le chemin '/home/login/data/', 
+	où login est le login de l'étudiant évalué.
+		OK docker volume inspect srcs_db
+
+- L'étudiant évalué doit être en mesure de vous expliquer comment vous connecter à la base de données. 
+	Essayez de vous connecter à la base de données SQL en tant que root mais sans mot de passe. 
+	Si la connexion réussit, le processus d'évaluation se termine maintenant.
+		********************************************
+		Voir dans le navigateur de dossier /système de fichiers/home/pascal/data/db/   les fichiers ne sont pas accéssible
+		https://kinsta.com/fr/blog/installer-wordpress-localement/  
+		utiliser phpMyAdmin via WAMP ou Adminer de la partie Bonus
+
+		docker exec -ti mariadb sh
+		https://mariadb.com/kb/en/connecting-to-mariadb/
+		mysql -h 127.0.0.1 -u root -p wordpress   (password pwolff)
+			show databases;
+			use wordpress;
+			show tables;
+
+# MySQL Settings :
+DB_SERVER=mariadb
+DB_NAME=wordpress
+#user
+DB_USER_NAME=pwolff
+DB_USER_PWD=pwolff
+#admin
+DB_ADMIN_NAME=root
+DB_ADMIN_PWD=pwolff
+
+
+- Essayez de vous connecter à la base de données SQL avec le compte utilisateur et son mot de passe. 
+	Vérifiez que la base de données n'est pas vide. Si l'un des points ci-dessus n'est pas correct, 	
+	le processus d'évaluation se termine maintenant.
+		*************************************************
+		https://kinsta.com/fr/blog/installer-wordpress-localement/  
+		utiliser phpMyAdmin via WAMP ou Adminer de la partie Bonus
+
+		mysql -h 127.0.0.1 -u pwolff -p wordpress   (password pwolff)
+			show databases;
+			use wordpress;
+			show tables;
+
+Persistance!
+- Cette partie est assez simple. Vous devez redémarrer la machine virtuelle. 
+	Une fois redémarré, relancez docker-compose. Ensuite, vérifiez que tout est fonctionnel 
+	et que WordPress et MariaDB sont configurés. Les modifications que vous avez apportées précédemment 
+	au site Web WordPress devraient toujours être présentes.
+	Si l'un des points ci-dessus n'est pas correct, le processus d'évaluation se termine maintenant.
+		OK (docker-compose stop  /  down  /  up -d)
+
+
+*************************************************************************************************
+
+Bonus
+Evaluez la partie bonus si, et seulement si, la partie obligatoire a été entièrement et parfaitement réalisée, 
+	et que la gestion des erreurs gère les imprévus ou les mauvaises utilisations. Dans le cas où tous les points obligatoires n'ont pas été passés lors de la défense, les points bonus doivent être totalement ignorés.
+
+Bonus
+Ajoutez 1 point par bonus autorisé dans la matière.
+Vérifier et tester le bon fonctionnement et la mise en œuvre de chaque service supplémentaire.
+Pour le service de libre choix, l'étudiant évalué doit vous donner une explication simple 
+sur son fonctionnement et pourquoi il pense que c'est utile.
+
+
+Mettre en place redis cache pour votre WordPress, afin de gérer le cache proprement. :  OK Plugin mis en place dans wordpress lors de sa configuration avec WP-CLI :
+	https://www.hostinger.fr/tutoriels/wp-cli
+	dans worpress/tools/start.sh
+
+
+Pour ce projet, nous souhaitons que les bonus restent simples.
+Il vous faudra écrire un Dockerfile par service supplémentaire. Ainsi, chaque service
+tournera dans un container dédié et, si besoin, possédera son propre volume.
+Liste de bonus :
+• Mettre en place redis cache pour votre WordPress, afin de gérer le cache proprement.
+• Mettre en place un serveur FTP pointant vers le volume de votre site Wordpress.
+• Création d’un petit site statique, dans le langage de votre choix sauf PHP (Oui,
+PHP est exclu !). Par exemple, un site vitrine ou un site de présentation de votre
+CV.
+• Mettre en place Adminer.
+• Mettre en place un service de votre choix qui vous semble utile. Durant la soutenance,
+vous aurez à justifier ce choix.
+
+
+
+

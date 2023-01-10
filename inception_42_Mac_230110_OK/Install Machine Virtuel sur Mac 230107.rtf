@@ -1,0 +1,164 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fmodern\fcharset0 Courier;\f2\fnil\fcharset0 Menlo-Regular;
+}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue0;\red202\green202\blue202;\red23\green23\blue23;
+}
+{\*\expandedcolortbl;;\cssrgb\c0\c0\c0;\cssrgb\c83137\c83137\c83137;\cssrgb\c11765\c11765\c11765;
+}
+\margl1440\margr1440\vieww18060\viewh16520\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 VirtualBox :\
+Launchpad / Managed Software Center / VirtualBox\
+Launchpad / VirtualBox\
+Param\'e8tres / language / \'85. (Anglais pour clavier)\
+		/Display/ 300%\
+		/System/Processor/5lsb\
+\
+Debian  : 11.6.0\
+https://www.debian.org/distrib/netinst.     Amd64\
+\
+VirtualBox :\
+Nouvelle / Dossier de la machine / /goinfre/pwolff\
+	Type / Linux\
+	Version / Debian (64-bit)\
+\
+Taille de la memoire : 4096 MB\
+Cr\'e9er un disque virtuel maintenant\
+VDI\
+Dynamiquement allou\'e9\
+Emplacement du fichier et taille :  /goinfre/\'85.    30 Go\
+\
+Configuration / Syst\'e8me / Nombre de processeur / Maxi dans le vert\
+Configuration / Affichage / Facteur d \'e9chelle 300%\
+Configuration / stockage / mettre ISO Debian dans contr\'f4leur IDE\
+Configuration / Dossier partage / choisir un dossier sur Mac - Montage automatique - Point de montage G:\
+\
+\
+Demarrer\
+\
+Pour sortir de capture souris : cmd gauche\
+Graphic install\
+Langage Francais\
+Clavier    Etats-Unis\
+\
+Nom Syst\'e8me pascal\
+Domaine \'93\'94\
+Mp : pascal\
+\
+Utilisateur ; pascal\
+pascal\
+MP ; pascal\
+\
+(Partition : Utiliser un disque entier\
+Sh\'e9ma de partition : partion /home, /var et /tmp separees\
+Termin\'e9)\
+\
+Appliquer les changements : OUI\
+Analyser d'autre supports d'installation : NON\
+Configurer l outil de gestion des paquets : France / deb.debian.org\
+mandataire HTTP : vide\
+Participation a l'etude : NON\
+Logiciel a installer : server ssh / environnement de bureau - Serveur d'impression - utilitaires usuels du syst\'e9me - Xfce\
+installer le programme GRUB : OUI\
+Peripherique /dev/sda\
+\
+V\'e9rifier la version de Debian : lsb_release -d\
+\
+\
+\
+(https://www.youtube.com/watch?v=Mok2J__Ci3Y&t=1s)\
+mode root : \
+su\
+gpasswd -a Nom_User sudo        pour mettre Nom_User dans group sudo\
+puis applications / deconnexion\
+connection User (pascal)\
+pour pleine \'e9cran et adaptation de la fen\'eatre et presse papier :\
+sudo apt install make gcc dkms linux-source linux-headers-$(uname -r)\
+\
+puis p\'e9riph\'e9riques  / ins\'e9rer image CD / clic-droit ouvrir un terminal ici / ls / sudo sh VBoxLinuxAdditions.run\
+P\'e9riph\'e9riques / presse-papier partag\'e9 / bidirectionnel\
+\
+Sudo apt-get update\
+Sudo apt-get upgrade\
+\
+en root l'acc\'e9s est autoris\'e9, mais en User il faut donner les droits : sudo usermod -a -G vboxsf Name_User\
+et eventuellement : sudo mount -t vboxsf Nom_dossier_hote /media/sf_Nom_Dossier_hot \
+(Voir a redemarer la VM)\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97     OK.  \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+https://docs.docker.com/engine/install/debian/\
+Installation de Docker\
+sudo apt-get remove docker docker-engine docker.io containerd runc\
+\
+sudo apt-get update\
+sudo apt-get install \\\
+    ca-certificates \\\
+    curl \\\
+    gnupg \\\
+    lsb-release\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f1 \cf2 \expnd0\expndtw0\kerning0
+sudo mkdir -p /etc/apt/keyrings\
+curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \
+echo \\\
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian \\\
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null\
+\
+\
+sudo apt-get update\
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin\
+\
+Verif ;\
+sudo docker run hello-world\
+\
+Donner les droits aux User (pascal)\
+sudo groupadd docker\
+sudo usermod -aG docker $USER\
+\
+(Fermer et ouvrir VM)\
+(Docker-compose n\'92est pas encore installer)\
+\'97\'97\'97\'97\'97\'97\'97 OK \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+https://cloudinfrastructureservices.co.uk/how-to-install-and-use-docker-compose-on-debian-11/\
+Installer Docker-compose\
+\
+\
+sudo apt update\
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.0.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose\
+sudo chmod +x /usr/local/bin/docker-compose\
+docker-compose --version\
+\
+\
+Pour tester Inception :\
+Modifier chemin dans .env : DATA_FOLDER=/home/pwolff/data\
+\
+\
+\
+\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97 OK \'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\'97\
+\
+Faire le lien entre localhost et pwolff.42.fr\
+\
+Fait dans le Makefile :\
+\pard\pardeftab720\sl360\partightenfactor0
+
+\f2 \cf3 \cb4 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec3     sudo chmod 777 /etc/hosts\cb1 \
+\cb4     sudo echo "127.0.0.1 pwolff.42.fr" >> /etc/hosts\cb1 \
+\cb4     sudo echo "127.0.0.1 www.pwolff.42.fr" >> /etc/hosts\
+\
+\pard\pardeftab720\sl360\partightenfactor0
+\cf3 \cb1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0 \cf0 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
+\
+\
+}
